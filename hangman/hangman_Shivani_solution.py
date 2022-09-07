@@ -54,13 +54,18 @@ class Hangman:
         self.num_lives = num_lives
         self.word = word_list[random.randint(0,num_lives-1)]
         self.list_letters=[]
-        self.word_guesses = [len(self.word)]
-        #self.word_guesses=[] 
+        self.num_letters = len(set(self.word))
         self.word_guesses = ["_"] * len(self.word)
-        print('*******************************************************************')
-        print(f'Mystery Word : {self.word_guesses}')
-        print(f'You have : {self.num_lives} lives')
-        print('*******************************************************************')
+        start_message = f"""
+                {'*'*50}  
+                
+                Mystery Word is : {self.word_guesses}
+                You have : {self.num_lives} lives
+
+                {'*'*50}
+             """
+        print(start_message) 
+            
 
     def charposition(self,usrLetter) -> list:
         pos = [] #list to store positions for the character entered by user within the word
@@ -92,7 +97,7 @@ class Hangman:
         
 
         if usrLetter in self.list_letters: #check if letter already tried
-            print('You have already tried this letter, please try another one')
+            print(f'{usrLetter} was already tried ')
             
         else: #if letter not already tried add to list
             self.list_letters.append(usrLetter)
@@ -101,16 +106,20 @@ class Hangman:
             if len(pos_array) > 0: #if letter found in Mystery word populate word_guesses on each occurence                for pos_index in pos_array:
                 for pos_index in pos_array:
                     self.word_guesses[pos_index] = usrLetter
-
+                self.num_letters -= 1 #decrement number of UNIQUE letters user has not guessed
             else:
                 print('The letter was not found!')
                 self.num_lives -= 1 #decrement number of lives if not a previously guessed letter
                 
             # display to user latest status on letters guessed, mystery word known and num_lives       
-            print(f'Letters you have guessed so far : {self.list_letters}')
-            print(f'Mystery Word : {self.word_guesses}')
-            print(f'You still have : {self.num_lives} lives')   
+               
+            loop_message = f"""
+                Mystery Word is : {self.word_guesses}
 
+                Letters you have guessed so far : {self.list_letters}
+                You have : {self.num_lives} lives
+                """
+            print(loop_message) 
        
 
     def ask_letter(self):
@@ -131,26 +140,26 @@ class Hangman:
 
             #if all letters in mystery word have been guessed then display user message and exit program
             if bool({"_"} & set(self.word_guesses)) == False:
-                print('')
+                print()
                 print('********************************************************************************')
-                print('')
-                print(f'You have guessed the Mystery Word : {self.word_guesses} with {self.num_lives} lives left') 
-                print('')
+                print()
+                print(f'Congratulations you won : {self.word_guesses} with {self.num_lives} lives left') 
+                print()
                 print('********************************************************************************')
                 exit()
 
             elif (self.num_lives == 0):
-                print('')
+                print()
                 print('********************************************************************************')
-                print('')
+                print()
                 print(f'You have run out of lives. The Mystery Word is : {self.word}') 
-                print('')
+                print()
                 print('********************************************************************************')
                 exit()
             
             else: #otherwise keep looping the game               
-                print('') # user dipaly formatting
-                print('----------------------------------------------------------------')  # user dipaly formatting
+                print() # user display formatting
+                print('----------------------------------------------------------------')  # user display formatting
                 usrLetter = input('Enter a single character input:  ').lower()        
                 if (len(usrLetter)>1 or usrLetter.isalpha()==False):
                     print('Please enter just one character as your input:  ')
