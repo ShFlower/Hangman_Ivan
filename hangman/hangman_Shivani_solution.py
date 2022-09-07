@@ -1,9 +1,9 @@
 '''
 Code written by Shivani Flower
 Date 05 Septemebr 2022
-'''
+
 Make sure you complete all the TODOs in this file.
-The prints have to contain the same text as indicated, don't add any more prints,
+The prints have to contain the same text as indicated, dont add any more prints
 or you will get 0 for this assignment.
 '''
 import random
