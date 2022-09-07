@@ -56,15 +56,15 @@ class Hangman:
         self.list_letters=[]
         self.num_letters = len(set(self.word))
         self.word_guesses = ["_"] * len(self.word)
-        start_message = f"""
-                {'*'*50}  
-                
-                Mystery Word is : {self.word_guesses}
-                You have : {self.num_lives} lives
-
-                {'*'*50}
-             """
-        print(start_message) 
+        #start_message = f"""
+        #        {'*'*50}  
+#
+        #        Mystery Word is : {self.word_guesses}
+        #        You have : {self.num_lives} lives
+#
+        #        {'*'*50}
+        #     """
+        #print(start_message) 
             
 
     def charposition(self,usrLetter) -> list:
@@ -113,13 +113,7 @@ class Hangman:
                 
             # display to user latest status on letters guessed, mystery word known and num_lives       
                
-            loop_message = f"""
-                Mystery Word is : {self.word_guesses}
-
-                Letters you have guessed so far : {self.list_letters}
-                You have : {self.num_lives} lives
-                """
-            print(loop_message) 
+            
        
 
     def ask_letter(self):
@@ -135,42 +129,30 @@ class Hangman:
         # TODO 2. It has to be a letter that has not been tried yet. Use the list_letters attribute to check this. If it has been tried, print "{letter} was already tried".
         # TODO 3: If the letter is valid, call the check_letter method
 
-        # loop while there are unguessed letters in mystery word or the user has lives left  
-        while bool({"_"} & set(self.word_guesses)) or (self.num_lives > 0):
+                           
+        print() # user display formatting
+        print('----------------------------------------------------------------')  # user display formatting
+        usrLetter = input('Enter a single character input:  ').lower()        
+        if (len(usrLetter)>1 or usrLetter.isalpha()==False):
+            print('Please enter just one character as your input:  ')
 
-            #if all letters in mystery word have been guessed then display user message and exit program
-            if bool({"_"} & set(self.word_guesses)) == False:
-                print()
-                print('********************************************************************************')
-                print()
-                print(f'Congratulations you won : {self.word_guesses} with {self.num_lives} lives left') 
-                print()
-                print('********************************************************************************')
-                exit()
-
-            elif (self.num_lives == 0):
-                print()
-                print('********************************************************************************')
-                print()
-                print(f'You have run out of lives. The Mystery Word is : {self.word}') 
-                print()
-                print('********************************************************************************')
-                exit()
-            
-            else: #otherwise keep looping the game               
-                print() # user display formatting
-                print('----------------------------------------------------------------')  # user display formatting
-                usrLetter = input('Enter a single character input:  ').lower()        
-                if (len(usrLetter)>1 or usrLetter.isalpha()==False):
-                    print('Please enter just one character as your input:  ')
-
-                elif(len(usrLetter)==1 and usrLetter.isalpha()):
-                    print('That\'s right') 
-                    self.check_letter(usrLetter)  # checks if the letter has been entered by user where in the word the letter appears
-                
-                else:
-                    print("Please enter a character as your input: ")
+        elif(len(usrLetter)==1 and usrLetter.isalpha()):
+            print('That\'s right') 
+            self.check_letter(usrLetter)  # checks if the letter has been entered by user where in the word the letter appears
         
+        else:
+            print("Please enter a character as your input: ")
+        
+        #print game status 
+        loop_message = f"""
+                Mystery Word is : {self.word_guesses}
+
+                Letters you have guessed so far : {self.list_letters}
+                You have : {self.num_lives} lives left
+                """
+        print(loop_message)
+
+
 def play_game(word_list):
     # As an aid, part of the code is already provided:
     # TODO 1: To test this task, you can call the ask_letter method
@@ -182,8 +164,53 @@ def play_game(word_list):
     # If the user runs out of lives, print "You ran out of lives. The word was {word}"
 
     game = Hangman(word_list, num_lives=5)
+    #print message to start the game
+    start_message = f"""
+                {'*'*50}  
+
+                Mystery Word is : {game.word_guesses}
+
+                You have : {game.num_lives} lives 
+
+                {'*'*50}
+             """
     
-    game.ask_letter()
+    print(start_message) 
+    
+    # loop through game until the user guesses all letters in word or runs out of lives
+    while (game.num_letters > 0) or (game.num_lives > 0):
+        
+        #define user messages to display during game
+        unique_message = f"""
+                    {'*'*70}
+
+                    Congratulations you won ! with {game.num_lives} lives left
+                    
+                    You guessed : {game.word_guesses}  
+                
+                    {'*'*70}
+                """
+
+        outoflives_message = f"""
+               
+                    {'*'*50}
+                
+                    You have run out of lives. 
+               
+                    The Mystery Word is : {game.word} 
+                
+                    {'*'*50}
+                """
+        #main body of game
+        if(game.num_letters == 0):
+            print(unique_message)
+            exit()
+        elif(game.num_lives == 0):
+            print(outoflives_message)
+            exit()
+        else:
+             game.ask_letter()
+             
 
 if __name__ == '__main__':
     word_list = ['apple', 'banana', 'orange', 'pear', 'strawberry', 'watermelon']
