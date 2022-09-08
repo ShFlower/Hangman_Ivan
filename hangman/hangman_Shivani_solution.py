@@ -7,7 +7,6 @@ The prints have to contain the same text as indicated, dont add any more prints
 or you will get 0 for this assignment.
 '''
 import random
-from turtle import end_fill
 
 class Hangman:
     '''
